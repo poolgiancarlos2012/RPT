@@ -366,6 +366,32 @@ public class Menu extends JFrame {
 				
 			}
 		});
+		
+		ItemTipoCambio.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				System.out.println("Hola Mundo:"+mgr.WindowsStatClose);
+				
+				if (mgr.WindowsStatClose) {
+					try {
+						mgr.WindowsStatClose = false;
+
+						if (!desktop.isAncestorOf(mgr.getTipcamb().getInstanciaTipodeCambio())) {
+							desktop.add(mgr.getTipcamb().getInstanciaTipodeCambio());
+							Dimension desktopSize = desktop.getSize();
+							Dimension FrameSize = mgr.getTipcamb().getInstanciaTipodeCambio().getSize();
+							mgr.getTipcamb().getInstanciaTipodeCambio().setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+						} else {
+							mgr.getTipcamb().setVisible(true);
+						}
+					} catch (Exception ex) {
+						Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+					}
+				}
+				
+			}
+		});
 
 	}
 

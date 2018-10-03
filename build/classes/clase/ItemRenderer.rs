@@ -1,2 +1,0 @@
-clase.ItemRenderer
-clase.Item

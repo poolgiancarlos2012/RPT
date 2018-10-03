@@ -11,6 +11,8 @@ import View.EstadoCuentaSunny;
 import View.HistoricoDetalleDoc;
 import View.Acceso;
 
+import View.TipodeCambio;
+
 import model.logic.Logical;
 import model.vo.UsuarioVO;
 import model.vo.AgenciaVO;
@@ -27,6 +29,8 @@ public class Manager {
 	
 	private HistoricoDetalleDoc HistDetDoc;
 	private Acceso Acces;
+	
+	private TipodeCambio Tipcamb;
 	
 	private Logical Logic;
 
@@ -100,6 +104,14 @@ public class Manager {
 		this.Acces = Acces;
 	}
 
+	public TipodeCambio getTipcamb() {
+		return Tipcamb;
+	}
+
+	public void setTipcamb(TipodeCambio Tipcamb) {
+		this.Tipcamb = Tipcamb;
+	}
+	
 	public void ShowMenu(String Cargo) {
 
 		if (Cargo.equals("ADMINISTRADOR")) {
@@ -114,15 +126,7 @@ public class Manager {
 	}
 
 	public UsuarioVO ValidarAcceso(String user, String pass) {
-		
-//		boolean rpta
-
-//		UsuarioVO busq =  Logic.ValidarAcceso(user, pass);
-//		Alias = busq.getAlias();
-//		User = busq.getUsuario();
-		
 		return Logic.ValidarAcceso(user, pass);
-//		return busq;
 	}
 
 	public ArrayList<AgenciaVO> ConsultarAgenciaCAISAC() {
