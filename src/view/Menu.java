@@ -392,6 +392,32 @@ public class Menu extends JFrame {
 				
 			}
 		});
+		
+		ItemDireccionCliente.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				System.out.println("Hola Mundo:"+mgr.WindowsStatClose);
+
+				if (mgr.WindowsStatClose) {
+					try {
+						mgr.WindowsStatClose = false;
+
+						if (!desktop.isAncestorOf(mgr.getDirCli().getInstanciaDireccionCliente())) {
+							desktop.add(mgr.getDirCli().getInstanciaDireccionCliente());
+							Dimension desktopSize = desktop.getSize();
+							Dimension FrameSize = mgr.getDirCli().getInstanciaDireccionCliente().getSize();
+							mgr.getDirCli().getInstanciaDireccionCliente().setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+						} else {
+							mgr.getDirCli().setVisible(true);
+						}
+					} catch (Exception ex) {
+						Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+					}
+				}
+
+			}
+		});
 
 	}
 

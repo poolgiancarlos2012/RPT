@@ -12,6 +12,7 @@ import View.HistoricoDetalleDoc;
 import View.Acceso;
 
 import View.TipodeCambio;
+import View.DireccionCliente;
 
 import model.logic.Logical;
 import model.vo.UsuarioVO;
@@ -31,6 +32,7 @@ public class Manager {
 	private Acceso Acces;
 	
 	private TipodeCambio Tipcamb;
+	private DireccionCliente DirCli;
 	
 	private Logical Logic;
 
@@ -111,6 +113,14 @@ public class Manager {
 	public void setTipcamb(TipodeCambio Tipcamb) {
 		this.Tipcamb = Tipcamb;
 	}
+
+	public DireccionCliente getDirCli() {
+		return DirCli;
+	}
+
+	public void setDirCli(DireccionCliente DirCli) {
+		this.DirCli = DirCli;
+	}	
 	
 	public void ShowMenu(String Cargo) {
 

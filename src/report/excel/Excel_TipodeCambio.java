@@ -142,6 +142,9 @@ public class Excel_TipodeCambio{
 				numFilaDatos = numFilaDatos + 1;
 				
 			}
+			
+			res.close();
+			cnn.desconectar();
 
 			File PathC = new File(".").getAbsoluteFile().getParentFile().getParentFile().getParentFile();
 			System.out.println(PathC);

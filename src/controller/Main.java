@@ -10,8 +10,10 @@ import View.EstadoCuentaSunny;
 
 import View.HistoricoDetalleDoc;
 import View.Acceso;
+import View.DireccionCliente;
 
 import View.TipodeCambio;
+
 
 import javax.swing.UIManager;
 
@@ -29,6 +31,7 @@ public class Main extends javax.swing.JFrame {
 	Acceso Acces;
 	
 	TipodeCambio Tipcamb;
+	DireccionCliente DirCli;
 	
 	Manager mgr;
 
@@ -58,6 +61,7 @@ public class Main extends javax.swing.JFrame {
 		EstCuxFech = new EstadoCuentaxFecha();
 		EstCuSunny = new EstadoCuentaSunny();
 		Tipcamb = new TipodeCambio();
+		DirCli = new DireccionCliente();
 		
 		HistDetDoc = new HistoricoDetalleDoc();
 		Acces = new Acceso();
@@ -73,6 +77,7 @@ public class Main extends javax.swing.JFrame {
 		Acces.setManager(mgr);
 		Logic.setManager(mgr);
 		Tipcamb.setManager(mgr);
+		DirCli.setManager(mgr);
 		
 		mgr.setLogic(Logic);
 		mgr.setLogeo(logeo);
@@ -83,6 +88,7 @@ public class Main extends javax.swing.JFrame {
 		mgr.setHistDetDoc(HistDetDoc);
 		mgr.setAcces(Acces);
 		mgr.setTipcamb(Tipcamb);
+		mgr.setDirCli(DirCli);
 		
 
 		logeo.getXframe().setVisible(true);
