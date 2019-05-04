@@ -11,12 +11,33 @@ import java.awt.*;
 import javax.swing.*;
 
 import controller.Manager;
+import static java.awt.SystemColor.desktop;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
-
+//class backImage extends JComponent {
+// 
+//Image i;
+// 
+////Creating Constructer
+//public backImage(Image i) {
+//this.i = i;
+// 
+//}
+// 
+////Overriding the paintComponent method
+//@Override
+//public void paintComponent(Graphics g) {
+// 
+//g.drawImage(i, 0, 0, null);  // Drawing image using drawImage method
+// 
+//}
+//}
 
 public class Menu extends JFrame {
 
@@ -26,10 +47,13 @@ public class Menu extends JFrame {
 	
 	private JLabel StatusWindows;
 
-	private JMenu MenuReportecob, MenuEstadoCuentacob, MenuGerencialcob, MenuHistoricocob, MenuBaseCliente, MenuConfig;
-	private JMenuItem ItemEstadoCuentaCliente, ItemEstadoCuentaFecha, ItemEstadoCuentaMassiveSend, ItemEstadoCuentaSunny, ItemGerencialOficina, ItemGerencialTiendas, ItemGerencialCastigados, ItemHistoricoPagos, ItemHistoricoDoc, ItemHistoricoDetDoc, ItemDireccionCliente, ItemTipoCambio, ItemBCliente, ItemLineaCreditos, ItemAcces;
+	private JMenu MenuReportecob, MenuEstadoCuentacob, MenuGerencialcob, MenuHistoricocob, MenuBaseCliente, MenuProduccion, MenuConfig;
+	private JMenuItem ItemEstadoCuentaCliente, ItemEstadoCuentaFecha, ItemEstadoCuentaMassiveSend, ItemEstadoCuentaSunny, ItemGerencialOficina, ItemGerencialTiendas, ItemGerencialCastigados, ItemHistoricoPagos, ItemHistoricoDoc, ItemHistoricoDetDoc, ItemDireccionCliente, ItemTipoCambio, ItemBCliente, ItemLineaCreditos, ItemAcces, ItemRegistroEntradas, ItemRegistroSalidas;
 
 	private JDesktopPane desktop;
+	
+	
+	
 	private JFrame Menframe;
 
 	public JFrame getMenframe() {
@@ -56,11 +80,11 @@ public class Menu extends JFrame {
 		this.desktop = desktop;
 	}
 
-	public Menu() {
+	public Menu() throws IOException  {
 		init();
 	}
 
-	public void init() {
+	public void init() throws IOException  {
 
 		Menframe = new JFrame();
 
@@ -70,8 +94,45 @@ public class Menu extends JFrame {
 		Menframe.setIconImage(Toolkit.getDefaultToolkit().getImage(stricoga));
 		Menframe.setDefaultLookAndFeelDecorated(true);
 		Menframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
+		
 
-		desktop = new JDesktopPane();
+//		desktop = new JDesktopPane();
+
+		/*Fondo Color*/
+//		desktop = new javax.swing.JDesktopPane() {
+//			@Override
+//			protected void paintComponent(Graphics g) {
+//				super.paintComponent(g);
+//				g.setColor(Color.BLACK);
+//				g.fillRect(0, 0, getWidth(), getHeight());
+//			}
+//		};
+
+		/*Fondo Imagen*/
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // Tamaño de Pantalla
+		
+		desktop = new javax.swing.JDesktopPane() {
+			private Image image;
+			{
+				try {
+
+					String FondoScreen = new File("src\\img\\PT1.jpg").getAbsolutePath();
+					image = ImageIO.read(new File(FondoScreen));
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(image, 0, 0, (int) Math.round(screenSize.getWidth()), (int) Math.round(screenSize.getHeight()), this);
+			}
+		};
+
+		
 		barraMenu = new JMenuBar();
 
 		MenuReportecob = new JMenu("Reporte");
@@ -149,17 +210,27 @@ public class Menu extends JFrame {
 		ItemLineaCreditos = new JMenuItem("B. Clientes");
 		ItemLineaCreditos.setEnabled(false);
 		MenuBaseCliente.add(this.ItemLineaCreditos);
-
+		
+		MenuProduccion = new JMenu("Produccion");
+		MenuProduccion.setEnabled(false);
+		barraMenu.add(this.MenuProduccion);
+		
+		ItemRegistroEntradas = new JMenuItem("Registro de Entradas");
+		ItemRegistroEntradas.setEnabled(false);
+		MenuProduccion.add(this.ItemRegistroEntradas);
+		
+		ItemRegistroSalidas = new JMenuItem("Registro de Salidas");
+		ItemRegistroSalidas.setEnabled(false);
+		MenuProduccion.add(this.ItemRegistroSalidas);
+		
 		MenuConfig = new JMenu("Configuración");
-		MenuConfig.setEnabled(false);
+		MenuConfig.setEnabled(false);		
 		
 		ItemAcces = new JMenuItem("Modificar Accesos");
 		ItemAcces.setEnabled(false);
-		MenuConfig.add(ItemAcces);
-		
+		MenuConfig.add(ItemAcces);		
 
-		barraMenu.add(this.MenuConfig);
-		
+		barraMenu.add(this.MenuConfig);	
 
 		desktop.add(barraMenu);
 		Menframe.setJMenuBar(barraMenu);
@@ -169,6 +240,11 @@ public class Menu extends JFrame {
 		Menframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		Menframe.setLocationRelativeTo(null);	
 
+//		BufferedImage bf = ImageIO.read(new File("C:\\Users\\ppujay\\Documents\\NetBeansProjects\\RPT\\src\\img\\PT7.jpg")); 
+//		Menframe.setContentPane(new backImage(bf));
+
+
+		
 		programaEventos();
 
 	}
@@ -200,6 +276,10 @@ public class Menu extends JFrame {
 			ItemBCliente.setEnabled(true);
 			ItemLineaCreditos.setEnabled(true);
 
+		MenuProduccion.setEnabled(true);
+			ItemRegistroEntradas.setEnabled(true);
+			ItemRegistroSalidas.setEnabled(true);
+			
 		MenuConfig.setEnabled(true);
 			ItemAcces.setEnabled(true);
 
@@ -231,6 +311,10 @@ public class Menu extends JFrame {
 		MenuBaseCliente.setEnabled(true);
 			ItemBCliente.setEnabled(true);
 			ItemLineaCreditos.setEnabled(true);
+			
+		MenuProduccion.setEnabled(false);
+			ItemRegistroEntradas.setEnabled(false);
+			ItemRegistroSalidas.setEnabled(false);
 
 		MenuConfig.setEnabled(true);
 			ItemAcces.setEnabled(true);
@@ -262,6 +346,10 @@ public class Menu extends JFrame {
 		MenuBaseCliente.setEnabled(true);
 			ItemBCliente.setEnabled(true);
 			ItemLineaCreditos.setEnabled(true);
+			
+		MenuProduccion.setEnabled(false);
+			ItemRegistroEntradas.setEnabled(false);
+			ItemRegistroSalidas.setEnabled(false);
 
 		MenuConfig.setEnabled(true);
 			ItemAcces.setEnabled(true);
@@ -418,6 +506,32 @@ public class Menu extends JFrame {
 
 			}
 		});
+				
+		ItemRegistroEntradas.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				System.out.println("Hola Mundo:"+mgr.WindowsStatClose);
+
+				if (mgr.WindowsStatClose) {
+					try {
+						mgr.WindowsStatClose = false;
+
+						if (!desktop.isAncestorOf(mgr.getRegEnt().getInstanciaRegistrarEntrada())) {
+							desktop.add(mgr.getRegEnt().getInstanciaRegistrarEntrada());
+							Dimension desktopSize = desktop.getSize();
+							Dimension FrameSize = mgr.getRegEnt().getInstanciaRegistrarEntrada().getSize();
+							mgr.getRegEnt().getInstanciaRegistrarEntrada().setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+						} else {
+							mgr.getRegEnt().setVisible(true);
+						}
+					} catch (Exception ex) {
+						Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+					}
+				}
+
+			}
+		});
 
 	}
 
@@ -425,3 +539,4 @@ public class Menu extends JFrame {
 //        Menu mn = new Menu();
 //    }
 }
+

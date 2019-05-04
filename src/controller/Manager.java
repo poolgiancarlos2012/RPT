@@ -13,10 +13,12 @@ import View.Acceso;
 
 import View.TipodeCambio;
 import View.DireccionCliente;
+import View.RegistrarEntrada;
 
 import model.logic.Logical;
 import model.vo.UsuarioVO;
 import model.vo.AgenciaVO;
+import model.vo.ArticuloVO;
 import model.vo.ClienteVO;
 
 public class Manager {
@@ -33,8 +35,9 @@ public class Manager {
 	
 	private TipodeCambio Tipcamb;
 	private DireccionCliente DirCli;
+	private RegistrarEntrada RegEnt;
 	
-	private Logical Logic;
+	private Logical Logic;	
 
 	public static boolean WindowsStatClose = true; // IF ALL WINDOWS IS CLOSED
 	public static String User = "";
@@ -122,6 +125,14 @@ public class Manager {
 		this.DirCli = DirCli;
 	}	
 	
+	public RegistrarEntrada getRegEnt() {
+		return RegEnt;
+	}
+
+	public void setRegEnt(RegistrarEntrada RegEnt) {
+		this.RegEnt = RegEnt;
+	}
+	
 	public void ShowMenu(String Cargo) {
 
 		if (Cargo.equals("ADMINISTRADOR")) {
@@ -172,6 +183,11 @@ public class Manager {
 	public boolean ActualizarContrasenia(String xalias,String NewPass){
 		Logic = new Logical();
 		return Logic.ActualizarContrasenia(xalias, NewPass);
+	}
+	
+	public ArrayList<ArticuloVO> MostrarArticulo(String codprod, String prod) {
+		Logic = new Logical();
+		return Logic.MostrarArticulos(codprod, prod);
 	}
 
 }

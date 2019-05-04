@@ -5,15 +5,28 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Cnx{
-    
-    static String HOST = "SERVER400";
+    /*Conexion al Servidor .99*/
+ /* 
+   static String HOST = "SERVER400";
     static String BD = "RSFACCAR";
     static String USER = "sa";
     static String PASS = "Andinars08";
     static String PORT = "1433";
     static String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    static String CONEXION = "jdbc:sqlserver://"+HOST+":"+PORT+";databaseName="+BD;
-    
+    static String CONEXION = "jdbc:sqlserver://192.168.0.99\\"+HOST+":"+PORT+";databaseName="+BD;
+*/
+	
+   /*Conexion Local*/
+    static String HOST = "";
+    static String BD = "RSFACCAR";
+    static String USER = "sa";
+    static String PASS = "123456";
+    static String PORT = "1433";
+    static String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    static String CONEXION = "jdbc:sqlserver://POOLPG" +HOST+":"+PORT+";databaseName=RSFACCAR";
+	
+	
+	
     Connection conn = null;
     
     public Cnx(){

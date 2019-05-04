@@ -8,13 +8,10 @@ import model.vo.UsuarioVO;
 import model.dao.UsuarioDAO;
 import model.vo.AgenciaVO;
 import model.dao.AgenciaDAO;
+import model.dao.ArticuloDAO;
 import model.vo.ClienteVO;
 import model.dao.ClienteDAO;
-
-
-
-
-
+import model.vo.ArticuloVO;
 
 
 public class Logical {
@@ -25,6 +22,7 @@ public class Logical {
 	public static boolean consultaAgen0002 = false;
 	public static boolean consultaAgen = false;
 	public static boolean consultaCliente = false;
+	public static boolean consultaArticulo = false;
 
 	public void setManager(Manager mgr) {
 		this.mgr = mgr;
@@ -135,6 +133,21 @@ public class Logical {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	public ArrayList<ArticuloVO> MostrarArticulos(String codprod, String prod){
+		ArticuloDAO articulosdo;
+		
+		try {
+			consultaArticulo = true;
+			articulosdo = new ArticuloDAO();
+			return articulosdo.DAO_MostrarArticulos(codprod, prod);
+		} catch (Exception e) {
+			consultaArticulo = false;
+		}
+		
+		return null;
+		
 	}
 	
 

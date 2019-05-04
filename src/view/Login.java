@@ -10,6 +10,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import controller.Manager;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 
 import model.vo.UsuarioVO;
@@ -153,6 +154,7 @@ public class Login extends JFrame implements ActionListener {
 		xframe.setLocation(60, 60);
 		xframe.setResizable(false);
 		xframe.setLocationRelativeTo(null);
+		xframe.getContentPane().setBackground(Color.decode("#DDEBF7"));
 
 	}
 
