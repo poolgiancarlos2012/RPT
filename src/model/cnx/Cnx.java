@@ -24,6 +24,7 @@ public class Cnx{
     static String PORT = "1433";
     static String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     static String CONEXION = "jdbc:sqlserver://POOLPG" +HOST+":"+PORT+";databaseName=RSFACCAR";
+    //static String CONEXION = "jdbc:sqlserver://POOL" +HOST+":"+PORT+";databaseName=RSFACCAR";
 	
 	
 	
