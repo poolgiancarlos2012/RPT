@@ -27,7 +27,7 @@ public class Cnx{
     //static String CONEXION = "jdbc:sqlserver://POOL" +HOST+":"+PORT+";databaseName=RSFACCAR";
 	
 // Hola Mundo
-	
+	// hola que tal
 	
 	
     Connection conn = null;
