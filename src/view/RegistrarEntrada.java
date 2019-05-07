@@ -48,7 +48,7 @@ public class RegistrarEntrada extends JInternalFrame implements InternalFrameLis
 	
 	private JPanel paneladm, panelop,panelop1,panelop2, panelop3, panelop4,panelop5,panelop6,panelop7,panelop8,panelop9,panelop10,panelop11,panelop12,panelop13,panelHori,panelVeri_one,panelop14,panelVeri_two,panelVeri_three,panelVeri_four,panelVeri_five,panelop15,panelGrabar;
 	
-	private JLabel lbl_entrada, lbl_td_descrip, lbl_fech_doc, lbl_almacen,lbl_nro_doc,lbl_cod_mov,lbl_mov_descrip,lbl_prov,lbl_ref1,lbl_ref2,lbl_orden_compra,lbl_ref1_descrip,lbl_ref2_descrip,lbl_glosa1,lbl_glosa2,lbl_glosa3,lbl_producto,lbl_lote,lbl_cant,lbl_base,lbl_calc,lbl_dispo,lbl_final;
+	private JLabel lbl_entrada, lbl_td_descrip, lbl_fech_doc, lbl_almacen,lbl_almacen_descrip,lbl_nro_doc,lbl_cod_mov,lbl_mov_descrip,lbl_prov,lbl_prov_descrip,lbl_ref1,lbl_ref2,lbl_orden_compra,lbl_ref1_descrip,lbl_ref2_descrip,lbl_glosa1,lbl_glosa2,lbl_glosa3,lbl_producto,lbl_prod_descrip,lbl_lote,lbl_cant,lbl_base,lbl_calc,lbl_dispo,lbl_final;
 	private JTextField txt_ent, txt_fech_doc, txt_almacen, txt_nro_doc, txt_cod_mov,txt_codprov,txt_prov,txt_td_ref1,txt_td_ref2,txt_cod_empresa,txt_nro_ref1,txt_nro_ref2,txt_nro_orden_compra,txt_glosa1,txt_glosa2,txt_glosa3, txt_codprod,txt_prod_descrip,txt_um,txt_cant,txt_base,txt_calc,txt_dispo,txt_final;
 	private JButton btn_Procesar,btnGrabar;
 	
@@ -95,18 +95,35 @@ public class RegistrarEntrada extends JInternalFrame implements InternalFrameLis
 		panelop.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
 		panelop.setBackground( Color.decode("#DDEBF7") );
 
+		lbl_almacen = new JLabel();
+		lbl_almacen.setFont(Exo2Medium);
+		lbl_almacen.setPreferredSize(new Dimension(100,19));
+		lbl_almacen.setText("ALMACEN");
+		panelop.add(lbl_almacen);
+
+		lbl_almacen_descrip = new JLabel();
+		lbl_almacen_descrip.setFont(Exo2Medium);
+		lbl_almacen_descrip.setPreferredSize(new Dimension(100,19));
+		lbl_almacen_descrip.setText("0001 - ALMACEN CAJAMARQUILLA");
+		panelop.add(lbl_almacen_descrip);
+		paneladm.add(panelop);
+		
+		panelop1 = new JPanel();
+		panelop1.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
+		panelop1.setBackground( Color.decode("#DDEBF7") );	
+		
 		lbl_entrada = new JLabel();
 		lbl_entrada.setFont(Exo2Medium);
 		lbl_entrada.setPreferredSize(new Dimension(100,19));
 		lbl_entrada.setText("ENTRADA");
-		panelop.add(lbl_entrada);
+		panelop1.add(lbl_entrada);
 		
 		txt_ent = new JTextField();
 		txt_ent.setPreferredSize(new Dimension(35,19));
 		txt_ent.setFont(Exo2Light);
 		txt_ent.setText("");
 		txt_ent.setName("txt_ent");
-		panelop.add(txt_ent);
+		panelop1.add(txt_ent);
 		
 		txt_ent.addMouseListener(new MouseAdapter() {
 		@Override
@@ -119,94 +136,71 @@ public class RegistrarEntrada extends JInternalFrame implements InternalFrameLis
 		lbl_td_descrip = new JLabel();
 		lbl_td_descrip.setFont(Exo2Medium);
 		lbl_td_descrip.setText("---");
-		lbl_td_descrip.setPreferredSize(new Dimension(100,19));
+		lbl_td_descrip.setPreferredSize(new Dimension(293,19));
 		lbl_td_descrip.setForeground(Color.decode("#888888"));
-		panelop.add(lbl_td_descrip);
-		
-		lbl_fech_doc = new JLabel();
-		lbl_fech_doc.setFont(Exo2Medium);
-		lbl_fech_doc.setText("FECHA DOCUM.");		
-		panelop.add(lbl_fech_doc);		
-		paneladm.add(panelop);
-		
-		txt_fech_doc = new JTextField();
-		txt_fech_doc.setPreferredSize(new Dimension(100,19));
-		txt_fech_doc.setFont(Exo2Light);
-		txt_fech_doc.setText("");
-		txt_fech_doc.setName("txt_fech_doc");
-		panelop.add(txt_fech_doc);
-		
-		panelop1 = new JPanel();
-		panelop1.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
-		panelop1.setBackground( Color.decode("#DDEBF7") );	
-				
-		lbl_almacen = new JLabel();
-		lbl_almacen.setFont(Exo2Medium);
-		lbl_almacen.setPreferredSize(new Dimension(100,19));
-		lbl_almacen.setText("ALMACEN");
-		panelop1.add(lbl_almacen);
-		
-		txt_almacen = new JTextField();
-		txt_almacen.setPreferredSize(new Dimension(100,19));
-		txt_almacen.setFont(Exo2Light);
-		txt_almacen.setText("");
-		txt_almacen.setName("txt_almacen");
-		panelop1.add(txt_almacen);
-		paneladm.add(panelop1);
-		
-		panelop2 = new JPanel();
-		panelop2.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
-		panelop2.setBackground( Color.decode("#DDEBF7") );
+		panelop1.add(lbl_td_descrip);
 		
 		lbl_nro_doc = new JLabel();
 		lbl_nro_doc.setFont(Exo2Medium);
 		lbl_nro_doc.setPreferredSize(new Dimension(100,19));
 		lbl_nro_doc.setText("NRO. DOCUM.");
-		panelop2.add(lbl_nro_doc);
+		panelop1.add(lbl_nro_doc);
 				
 		txt_nro_doc = new JTextField();
 		txt_nro_doc.setPreferredSize(new Dimension(100,19));
 		txt_nro_doc.setFont(Exo2Light);
 		txt_nro_doc.setText("");
 		txt_nro_doc.setName("txt_nro_doc)");
-		panelop2.add(txt_nro_doc);
-		paneladm.add(panelop2);
+		panelop1.add(txt_nro_doc);
 		
-		panelop3 = new JPanel();
-		panelop3.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
-		panelop3.setBackground( Color.decode("#DDEBF7") );
+		paneladm.add(panelop1);
+		
+		panelop2 = new JPanel();
+		panelop2.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
+		panelop2.setBackground( Color.decode("#DDEBF7") );
 
 		lbl_cod_mov = new JLabel();
 		lbl_cod_mov.setFont(Exo2Medium);
 		lbl_cod_mov.setPreferredSize(new Dimension(100,19));
 		lbl_cod_mov.setText("COD.MOV.");
-		panelop3.add(lbl_cod_mov);
+		panelop2.add(lbl_cod_mov);
 
 		txt_cod_mov = new JTextField();
 		txt_cod_mov.setPreferredSize(new Dimension(35,19));
 		txt_cod_mov.setFont(Exo2Light);
 		txt_cod_mov.setText("");
 		txt_cod_mov.setName("txt_ent");
-		panelop3.add(txt_cod_mov);
+		panelop2.add(txt_cod_mov);
 
 		lbl_mov_descrip = new JLabel();
 		lbl_mov_descrip.setFont(Exo2Medium);
 		lbl_mov_descrip.setText("---");
-		lbl_mov_descrip.setPreferredSize(new Dimension(100,19));
+		lbl_mov_descrip.setPreferredSize(new Dimension(293,19));
 		lbl_mov_descrip.setForeground(Color.decode("#888888"));
-		panelop3.add(lbl_mov_descrip);		
-		paneladm.add(panelop3);
+		panelop2.add(lbl_mov_descrip);	
 		
-//		JSeparator sep = new JSeparator(SwingConstants.HORIZONTAL);  
-//		panelop3.add(sep);
+		lbl_fech_doc = new JLabel();
+		lbl_fech_doc.setFont(Exo2Medium);
+		lbl_fech_doc.setPreferredSize(new Dimension(100,19));
+		lbl_fech_doc.setText("FECHA DOCUM.");		
+		panelop2.add(lbl_fech_doc);
 		
-		panelop4 = new JPanel();
-		panelop4.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
-		panelop4.setBackground( Color.decode("#DDEBF7") );
+		txt_fech_doc = new JTextField();
+		txt_fech_doc.setPreferredSize(new Dimension(100,19));
+		txt_fech_doc.setFont(Exo2Light);
+		txt_fech_doc.setText("");
+		txt_fech_doc.setName("txt_fech_doc");
+		panelop2.add(txt_fech_doc);
+		
+		paneladm.add(panelop2);
 		
 		JSeparator sep = new JSeparator();
 		sep.setMaximumSize(new Dimension((int) sep.getMaximumSize().getWidth(), 50));
 		paneladm.add(sep);
+		
+		panelop4 = new JPanel();
+		panelop4.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
+		panelop4.setBackground( Color.decode("#DDEBF7") );
 		
 		lbl_prov = new JLabel();
 		lbl_prov.setFont(Exo2Medium);
@@ -219,18 +213,17 @@ public class RegistrarEntrada extends JInternalFrame implements InternalFrameLis
 		txt_codprov.setFont(Exo2Light);
 		txt_codprov.setText("");
 		txt_codprov.setName("txt_codprov)");
-		panelop4.add(txt_codprov);
+		panelop4.add(txt_codprov);		
 		
-		txt_prov = new JTextField();
-		txt_prov.setPreferredSize(new Dimension(241,19));
-		txt_prov.setFont(Exo2Light);
-		txt_prov.setText("");
-		txt_prov.setName("txt_prov)");
-		panelop4.add(txt_prov);
-				
+		lbl_prov_descrip = new JLabel();
+		lbl_prov_descrip.setFont(Exo2Medium);
+		lbl_prov_descrip.setPreferredSize(new Dimension(100,19));
+		lbl_prov_descrip.setText("---");
+		lbl_prov_descrip.setForeground(Color.decode("#888888"));
+		panelop4.add(lbl_prov_descrip);
+		
 		paneladm.add(panelop4);
-
-				
+		
 		panelop5 = new JPanel();
 		panelop5.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
 		panelop5.setBackground( Color.decode("#DDEBF7") );
@@ -341,7 +334,7 @@ public class RegistrarEntrada extends JInternalFrame implements InternalFrameLis
 		panelop8.add(lbl_glosa1);	
 
 		txt_glosa1 = new JTextField();
-		txt_glosa1.setPreferredSize(new Dimension(353,19));
+		txt_glosa1.setPreferredSize(new Dimension(564,19));
 		txt_glosa1.setFont(Exo2Light);
 		txt_glosa1.setText("");
 		txt_glosa1.setName("txt_glosa1)");
@@ -361,7 +354,7 @@ public class RegistrarEntrada extends JInternalFrame implements InternalFrameLis
 		panelop9.add(lbl_glosa2);	
 
 		txt_glosa2 = new JTextField();
-		txt_glosa2.setPreferredSize(new Dimension(353,19));
+		txt_glosa2.setPreferredSize(new Dimension(564,19));
 		txt_glosa2.setFont(Exo2Light);
 		txt_glosa2.setText("");
 		txt_glosa2.setName("txt_glosa2)");
@@ -381,7 +374,7 @@ public class RegistrarEntrada extends JInternalFrame implements InternalFrameLis
 		panelop10.add(lbl_glosa3);	
 
 		txt_glosa3 = new JTextField();
-		txt_glosa3.setPreferredSize(new Dimension(353,19));
+		txt_glosa3.setPreferredSize(new Dimension(564,19));
 		txt_glosa3.setFont(Exo2Light);
 		txt_glosa3.setText("");
 		txt_glosa3.setName("txt_glosa3)");
@@ -429,15 +422,6 @@ public class RegistrarEntrada extends JInternalFrame implements InternalFrameLis
 		
 		panelop11.add(txt_codprod);		
 		
-		txt_prod_descrip = new JTextField();
-		txt_prod_descrip.setPreferredSize(new Dimension(194,19));
-		txt_prod_descrip.setFont(Exo2Light);
-		txt_prod_descrip.setText("");
-		txt_prod_descrip.setName("txt_prod_descrip");
-		panelop11.add(txt_prod_descrip);
-		
-		
-		
 		txt_um = new JTextField();
 		txt_um.setPreferredSize(new Dimension(35,19));
 		txt_um.setFont(Exo2Light);
@@ -445,6 +429,13 @@ public class RegistrarEntrada extends JInternalFrame implements InternalFrameLis
 		txt_um.setName("txt_um)");
 		panelop11.add(txt_um);		
 		paneladm.add(panelop11);
+		
+		lbl_prod_descrip = new JLabel();
+		lbl_prod_descrip.setFont(Exo2Medium);
+		lbl_prod_descrip.setText("---");
+		lbl_prod_descrip.setPreferredSize(new Dimension(100,19));
+		lbl_prod_descrip.setForeground(Color.decode("#888888"));
+		panelop11.add(lbl_prod_descrip);	
 		
 		panelHori = new JPanel();
 		panelHori.setLayout(new BoxLayout(panelHori, BoxLayout.X_AXIS));		
@@ -592,7 +583,7 @@ public class RegistrarEntrada extends JInternalFrame implements InternalFrameLis
 
 		JTReceta.setModel(LReceta);
 
-		JTReceta.setPreferredScrollableViewportSize(new Dimension(550, 200));
+		JTReceta.setPreferredScrollableViewportSize(new Dimension(672, 200));
 		JTReceta.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
 		JTReceta.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -614,7 +605,6 @@ public class RegistrarEntrada extends JInternalFrame implements InternalFrameLis
 		jptreceta.add(scrollPane);
 
 		paneladm.add(jptreceta);
-		
 		
 		panelGrabar = new JPanel();
 		panelGrabar.setLayout(new FlowLayout(FlowLayout.CENTER,12,0));
