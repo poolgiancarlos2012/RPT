@@ -12,6 +12,8 @@ import model.dao.ArticuloDAO;
 import model.vo.ClienteVO;
 import model.dao.ClienteDAO;
 import model.vo.ArticuloVO;
+import model.dao.TipMovDAO;
+import model.vo.TipMovVO;
 
 
 public class Logical {
@@ -23,6 +25,7 @@ public class Logical {
 	public static boolean consultaAgen = false;
 	public static boolean consultaCliente = false;
 	public static boolean consultaArticulo = false;
+	public static boolean consultatipmov = false;
 
 	public void setManager(Manager mgr) {
 		this.mgr = mgr;
@@ -144,6 +147,21 @@ public class Logical {
 			return articulosdo.DAO_MostrarArticulos(codprod, prod);
 		} catch (Exception e) {
 			consultaArticulo = false;
+		}
+		
+		return null;
+		
+	}
+        
+                public ArrayList<TipMovVO> MostrarTipMov(String codigo, String descripcion){
+		TipMovDAO tipmovdao;
+		
+		try {
+			consultatipmov = true;
+			tipmovdao = new TipMovDAO();
+			return tipmovdao.DAO_MostrarTipMov(codigo, descripcion);
+		} catch (Exception e) {
+			consultatipmov = false;
 		}
 		
 		return null;

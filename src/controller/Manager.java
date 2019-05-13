@@ -20,6 +20,7 @@ import model.vo.UsuarioVO;
 import model.vo.AgenciaVO;
 import model.vo.ArticuloVO;
 import model.vo.ClienteVO;
+import model.vo.TipMovVO;
 
 public class Manager {
 
@@ -188,6 +189,11 @@ public class Manager {
 	public ArrayList<ArticuloVO> MostrarArticulo(String codprod, String prod) {
 		Logic = new Logical();
 		return Logic.MostrarArticulos(codprod, prod);
+	}
+        
+                public ArrayList<TipMovVO> MostrarTipMov(String codigo, String descripcion) {
+		Logic = new Logical();
+		return Logic.MostrarTipMov(codigo, descripcion);
 	}
 
 }
