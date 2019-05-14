@@ -14,6 +14,10 @@ import model.dao.ClienteDAO;
 import model.vo.ArticuloVO;
 import model.dao.TipMovDAO;
 import model.vo.TipMovVO;
+import model.dao.AlmacenDAO;
+import model.vo.AlmacenVO;
+import model.dao.ProveedorDAO;
+import model.vo.ProveedorVO;
 
 
 public class Logical {
@@ -26,6 +30,8 @@ public class Logical {
 	public static boolean consultaCliente = false;
 	public static boolean consultaArticulo = false;
 	public static boolean consultatipmov = false;
+	public static boolean consultaAlmacen = false;
+	public static boolean consultaProveedor = false;
 
 	public void setManager(Manager mgr) {
 		this.mgr = mgr;
@@ -162,6 +168,34 @@ public class Logical {
 			return tipmovdao.DAO_MostrarTipMov(codigo, descripcion);
 		} catch (Exception e) {
 			consultatipmov = false;
+		}
+		
+		return null;
+		
+	}
+				
+	public ArrayList<AlmacenVO>  ConsultarAlmacen() {
+		AlmacenDAO almacendao;
+		try {
+			consultaAlmacen = true;
+			almacendao = new AlmacenDAO();
+			return almacendao.ConsultarAlmacen();
+		} catch (Exception ex) {
+			consultaAlmacen = false;
+		}
+
+		return null;
+	}	
+	
+	public ArrayList<ProveedorVO> MostrarProveedor(String codigo, String proveedor){
+		ProveedorDAO proveedordao;
+		
+		try {
+			consultaProveedor = true;
+			proveedordao = new ProveedorDAO();
+			return proveedordao.DAO_MostrarProveedor(codigo, proveedor);
+		} catch (Exception e) {
+			consultaProveedor = false;
 		}
 		
 		return null;

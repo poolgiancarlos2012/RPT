@@ -128,7 +128,7 @@ public class EstadoCuentaxFecha extends JInternalFrame implements InternalFrameL
 	
 	private JCheckBox chkAllClientes,chkCAISAC, chkANDEX, chkSEMILLAS, chkSUNNY,chkAbonos;
 	private JComboBox  cboAgenCAISAC,cboAgenANDEX, cboAgenSEMILLAS, cboAgenSUNNY;
-	
+		
 	private JRadioButton rbpendcancel;
 	private JRadioButton rbpendientes;
 	private JDateChooser Emisionini;

@@ -8,6 +8,7 @@ import java.awt.Event;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
+import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
@@ -18,12 +19,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -40,14 +44,18 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import model.vo.ArticuloVO;
 import model.vo.TipMovVO;
+import model.vo.AlmacenVO;
+import model.vo.ProveedorVO;
 
 public class RegistrarEntrada extends JInternalFrame implements InternalFrameListener{
 	
 	private Manager mgr = new Manager();
         
-                private JTable JTMovEnt;
+	private JTable JTMovEnt;
+	private JTable JTListProvee;
 	
 	private JPanel paneladm, panelop,panelop1,panelop2, panelop3, panelop4,panelop5,panelop6,panelop7,panelop8,panelop9,panelop10,panelop11,panelop12,panelop13,panelHori,panelVeri_one,panelop14,panelVeri_two,panelVeri_three,panelVeri_four,panelVeri_five,panelop15,panelGrabar;
 	
@@ -56,6 +64,8 @@ public class RegistrarEntrada extends JInternalFrame implements InternalFrameLis
 	private JButton btn_Procesar,btnGrabar;
 	
 	private JTable JTReceta,JTProd;
+	
+	private JComboBox  cboAlmacen;
 	
 	public RegistrarEntrada() throws Exception {
 		mgr = new Manager();
@@ -87,77 +97,38 @@ public class RegistrarEntrada extends JInternalFrame implements InternalFrameLis
 		Font StrExo2Light = Font.createFont(Font.TRUETYPE_FONT, new File(strexolight));
 		ge.registerFont(StrExo2Light);
 		Font Exo2Light = new Font("Exo 2 Light", Font.PLAIN, 12);
-		
-		
+				
 		paneladm = new JPanel();
 		paneladm.setLayout(new BoxLayout(paneladm, BoxLayout.Y_AXIS));	
 		paneladm.setBackground( Color.decode("#DDEBF7") );
-
-		panelop = new JPanel();
-//		panelop.setBorder(new EmptyBorder(8, 8, 8, 8));
-		panelop.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
-		panelop.setBackground( Color.decode("#DDEBF7") );
-
-		lbl_almacen = new JLabel();
-		lbl_almacen.setFont(Exo2Medium);
-		lbl_almacen.setPreferredSize(new Dimension(100,19));
-		lbl_almacen.setText("ALMACEN");
-		panelop.add(lbl_almacen);
-
-		lbl_almacen_descrip = new JLabel();
-		lbl_almacen_descrip.setFont(Exo2Medium);
-		lbl_almacen_descrip.setPreferredSize(new Dimension(100,19));
-		lbl_almacen_descrip.setText("0001 - ALMACEN CAJAMARQUILLA");
-		panelop.add(lbl_almacen_descrip);
-		paneladm.add(panelop);
-		
+	
 		panelop1 = new JPanel();
 		panelop1.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
 		panelop1.setBackground( Color.decode("#DDEBF7") );	
 		
-		lbl_entrada = new JLabel();
-		lbl_entrada.setFont(Exo2Medium);
-		lbl_entrada.setPreferredSize(new Dimension(100,19));
-		lbl_entrada.setText("ENTRADA");
-		panelop1.add(lbl_entrada);
+		lbl_almacen = new JLabel();
+		lbl_almacen.setFont(Exo2Medium);
+		lbl_almacen.setPreferredSize(new Dimension(100,19));
+		lbl_almacen.setText("ALMACEN");
+		panelop1.add(lbl_almacen);
 		
-		txt_ent = new JTextField();
-		txt_ent.setPreferredSize(new Dimension(35,19));
-		txt_ent.setFont(Exo2Light);
-		txt_ent.setText("");
-		txt_ent.setName("txt_ent");
-		panelop1.add(txt_ent);
+		cboAlmacen = new JComboBox();
+		cboAlmacen.setPreferredSize(new Dimension(230, 19));
+		ArrayList<AlmacenVO> arrAlmacen = mgr.ConsultarAlmacen();	
+		for(AlmacenVO Alma: arrAlmacen){					
+			cboAlmacen.addItem(new Item(Alma.getCOD(),Alma.getALMACEN()));			
+		}
+		cboAlmacen.setSelectedIndex(0);
+		cboAlmacen.addActionListener(e -> {
+			JComboBox c = (JComboBox) e.getSource();
+			Item item = (Item) c.getSelectedItem();
+			System.out.println(item.getId() + " : " + item.getDescription());
+			//strage0002 = item.getId();
+		});		
+		cboAlmacen.setEnabled(true);
+		panelop1.add(cboAlmacen);
 		
-		txt_ent.addMouseListener(new MouseAdapter() {
-		@Override
-                                        public void mouseClicked(MouseEvent e) {		
-                                                Border border = BorderFactory.createLineBorder(Color.decode("#3A7AE2"));		
-                                                txt_ent.setBorder(border);		
-                                        }
-		});
-                
-                                txt_ent.setFocusTraversalKeysEnabled(false);
-                
-                                javax.swing.Action myAction = new javax.swing.AbstractAction() {
-                                        public void actionPerformed(ActionEvent e) {
-                                                try {
-                                                        JDialog asyncDialog = JDialogTipMov();				
-                                                } catch (Exception ex) {
-                                                        Logger.getLogger(EstadoCuentaxFecha.class.getName()).log(Level.SEVERE, null, ex);
-                                                }
-
-                                        }
-                                };
-                                
-                                txt_ent.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F1, Event.SHIFT_MASK), "myCode");
-		txt_ent.getActionMap().put("myCode", myAction);
-		
-		lbl_td_descrip = new JLabel();
-		lbl_td_descrip.setFont(Exo2Medium);
-		lbl_td_descrip.setText("---");
-		lbl_td_descrip.setPreferredSize(new Dimension(293,19));
-		lbl_td_descrip.setForeground(Color.decode("#888888"));
-		panelop1.add(lbl_td_descrip);
+		panelop1.add(Box.createHorizontalStrut(98)); // ESPACIO QUE SEPARA DOS COMPONENTES  EN UNA LINEA HORIZONTAL
 		
 		lbl_nro_doc = new JLabel();
 		lbl_nro_doc.setFont(Exo2Medium);
@@ -190,6 +161,31 @@ public class RegistrarEntrada extends JInternalFrame implements InternalFrameLis
 		txt_cod_mov.setText("");
 		txt_cod_mov.setName("txt_ent");
 		panelop2.add(txt_cod_mov);
+		
+//		txt_cod_mov.addMouseListener(new MouseAdapter() {
+//		@Override
+//			public void mouseClicked(MouseEvent e) {		
+//					Border border = BorderFactory.createLineBorder(Color.decode("#3A7AE2"));		
+//					txt_cod_mov.setBorder(border);		
+//			}
+//		});
+//
+//		txt_cod_mov.setFocusTraversalKeysEnabled(false);
+//
+//		javax.swing.Action myAction = new javax.swing.AbstractAction() {
+//				public void actionPerformed(ActionEvent e) {
+//						try {
+//								JDialog asyncDialog = JDialogTipMov();				
+//						} catch (Exception ex) {
+//								Logger.getLogger(EstadoCuentaxFecha.class.getName()).log(Level.SEVERE, null, ex);
+//						}
+//
+//				}
+//		};
+//
+//		txt_cod_mov.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F1, Event.SHIFT_MASK), "myCode");
+//		txt_cod_mov.getActionMap().put("myCode", myAction);
+		
 
 		lbl_mov_descrip = new JLabel();
 		lbl_mov_descrip.setFont(Exo2Medium);
@@ -240,6 +236,29 @@ public class RegistrarEntrada extends JInternalFrame implements InternalFrameLis
 		lbl_prov_descrip.setText("---");
 		lbl_prov_descrip.setForeground(Color.decode("#888888"));
 		panelop4.add(lbl_prov_descrip);
+		
+//		txt_codprov.addMouseListener(new MouseAdapter() {
+//		@Override
+//			public void mouseClicked(MouseEvent e) {		
+//					Border border = BorderFactory.createLineBorder(Color.decode("#3A7AE2"));		
+//					txt_codprov.setBorder(border);		
+//			}
+//		});
+//		
+//		txt_codprov.setFocusTraversalKeysEnabled(false);
+//		
+//		javax.swing.Action MyPanelProvee = new javax.swing.AbstractAction() {
+//			public void actionPerformed(ActionEvent e) {
+//				try {
+//						JDialog asyncDialog = JDialogProvee();				
+//				} catch (Exception ex) {
+//						Logger.getLogger(EstadoCuentaxFecha.class.getName()).log(Level.SEVERE, null, ex);
+//				}
+//			}
+//		};
+//		
+//		txt_codprov.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F1, Event.SHIFT_MASK), "myCode");
+//		txt_codprov.getActionMap().put("myCode", MyPanelProvee);
 		
 		paneladm.add(panelop4);
 		
@@ -520,149 +539,297 @@ public class RegistrarEntrada extends JInternalFrame implements InternalFrameLis
 
 	}
 	
-	private JDialog JDialogTipMov() throws Exception {
-        
-                        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//	private JDialog JDialogTipMov() throws Exception {
+//        
+//                        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//
+//                        String strexomedium = new File("src\\font\\exo2\\Exo2-Medium.otf").getAbsolutePath();
+//                        Font StrExo2Medium = Font.createFont(Font.TRUETYPE_FONT, new File(strexomedium));
+//                        ge.registerFont(StrExo2Medium);
+//                        Font Exo2Medium = new Font("Exo 2 Medium", Font.PLAIN, 12);
+//                        
+//                        final JDialog dialog = new JDialog();
+//                        dialog.setLayout(new FlowLayout());
+//                        dialog.setTitle("Movimientos de Entrada");
+//                        dialog.setModal(false);
+//                        dialog.setLocation(200, 200);
+//
+//                        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+//                        dialog.setAlwaysOnTop(true);
+//                        
+//                        JTMovEnt = new JTable();
+//
+//                        DefaultTableModel LTipMov = new DefaultTableModel();
+//                        String titulos[] = {"CODIGO", "DESCRIPCION"};
+//                        LTipMov.setColumnIdentifiers(titulos);	
+//
+//                        String codigo = ""; 
+//                        String descripcion = ""; 
+//                        
+//                        for (TipMovVO c : mgr.MostrarTipMov(codigo, descripcion)) {
+//                            String Datos[] = {String.valueOf(c.getCODIGO()), String.valueOf(c.getDESCRIPCION())};
+//                            LTipMov.addRow(Datos);
+//                        }
+//                        
+//                        JTMovEnt.setModel(LTipMov);
+//                        
+//                        JTMovEnt.addMouseListener(new java.awt.event.MouseAdapter() {
+//                                public void mouseClicked(java.awt.event.MouseEvent evt) {
+//                                        int selectedRowIndex = JTMovEnt.getSelectedRow();
+//                                        System.out.println(LTipMov.getValueAt(selectedRowIndex, 0).toString() + "\t" + LTipMov.getValueAt(selectedRowIndex, 1).toString());
+//
+//                                        txt_cod_mov.setText(LTipMov.getValueAt(selectedRowIndex, 0).toString());
+//                                        lbl_mov_descrip.setText(LTipMov.getValueAt(selectedRowIndex, 1).toString());				
+//                                        dialog.dispose();				
+//                                }
+//                        });
+//                        
+//                        JTMovEnt.setPreferredScrollableViewportSize(new Dimension(450, 200));
+//                        JTMovEnt.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//
+//                        JTMovEnt.getColumnModel().getColumn(0).setPreferredWidth(150);
+//                        JTMovEnt.getColumnModel().getColumn(1).setPreferredWidth(300);
+//                        
+//                        JScrollPane scrollPane = new JScrollPane(JTMovEnt, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//                        
+//                        JPanel jpdialog = new JPanel();
+//                        jpdialog.setLayout(new BoxLayout(jpdialog, BoxLayout.Y_AXIS));
+//                        jpdialog.setBackground(Color.red);
+//
+//                        JPanel jpttipmov = new JPanel();
+//                        jpttipmov.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
+//                        jpttipmov.add(scrollPane);		
+//                        jpdialog.add(jpttipmov);		
+//
+//                        JPanel jpsearchcli =  new JPanel();
+//                        jpsearchcli.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));	
+//                        
+//                        JLabel lblxcodigo = new JLabel();
+//                        lblxcodigo.setFont(Exo2Medium);
+//                        lblxcodigo.setText("TIP.MOV.");
+//                        jpsearchcli.add(lblxcodigo);
+//                        jpdialog.add(jpsearchcli);
+//
+//                        JTextField txtxcodigo = new JTextField();
+//                        txtxcodigo.setPreferredSize(new Dimension(150,19));
+//                        jpsearchcli.add(txtxcodigo);
+//
+//                        JTextField txtxdescripcion = new JTextField();
+//                        txtxdescripcion.setPreferredSize(new Dimension(250,19));
+//                        jpsearchcli.add(txtxdescripcion);
+//
+//                        dialog.add(jpdialog);
+//                        dialog.pack();
+//                        Runnable dialogDisplayThread = new Runnable() {
+//                                public void run() {
+//                                        dialog.setVisible(true);
+//                                }
+//                        };
+//
+//                        dialog.addWindowListener(new WindowAdapter() {
+//                                public void windowClosed(WindowEvent e) {
+//                                        dialog.dispose();
+//                                }
+//
+//                                public void windowClosing(WindowEvent e) {
+//                                        dialog.dispose();
+//                                }
+//                        });
+//                        
+//                        txtxcodigo.addKeyListener(new KeyAdapter() {
+//                        @Override
+//                        public void keyPressed(KeyEvent e) {
+//                                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+//
+//                                                String xcod = txtxcodigo.getText();
+//                                                String xdescrip = txtxdescripcion.getText();
+//
+//                                                LTipMov.setRowCount(0);
+//                                                for (TipMovVO c : mgr.MostrarTipMov(xcod,xdescrip)) {
+//                                                        String Datos[] = {String.valueOf(c.getCODIGO()), String.valueOf(c.getDESCRIPCION())};
+//                                                        LTipMov.addRow(Datos);
+//                                                }
+//
+//                                                JTMovEnt.setModel(LTipMov);
+//                                        }
+//                                }			
+//                        });
+//                        
+//                        txtxdescripcion.addKeyListener(new KeyAdapter() {
+//                            @Override
+//                            public void keyPressed(KeyEvent e) {
+//                                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+//
+//                                            String xcod = txtxcodigo.getText();
+//                                            String xdescrip = txtxdescripcion.getText();
+//
+//                                            LTipMov.setRowCount(0);
+//                                            for (TipMovVO c : mgr.MostrarTipMov(xcod, xdescrip)) {
+//                                                    String Datos[] = {String.valueOf(c.getCODIGO()), String.valueOf(c.getDESCRIPCION())};
+//                                                    LTipMov.addRow(Datos);
+//                                            }
+//
+//                                            JTMovEnt.setModel(LTipMov);
+//                                    }
+//                            }			
+//                        });
+//                        
+//                        new Thread(dialogDisplayThread).start();
+//
+//                        while (!dialog.isVisible()) {
+//                        }
+//                        dialog.paint(dialog.getGraphics());
+//
+//                        return dialog;
+//        
+//                }
 
-                        String strexomedium = new File("src\\font\\exo2\\Exo2-Medium.otf").getAbsolutePath();
-                        Font StrExo2Medium = Font.createFont(Font.TRUETYPE_FONT, new File(strexomedium));
-                        ge.registerFont(StrExo2Medium);
-                        Font Exo2Medium = new Font("Exo 2 Medium", Font.PLAIN, 12);
-                        
-                        final JDialog dialog = new JDialog();
-                        dialog.setLayout(new FlowLayout());
-                        dialog.setTitle("Movimientos de Entrada");
-                        dialog.setModal(false);
-                        dialog.setLocation(200, 200);
-
-                        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-                        dialog.setAlwaysOnTop(true);
-                        
-                        JTMovEnt = new JTable();
-
-                        DefaultTableModel LTipMov = new DefaultTableModel();
-                        String titulos[] = {"CODIGO", "DESCRIPCION"};
-                        LTipMov.setColumnIdentifiers(titulos);	
-
-                        String codigo = ""; 
-                        String descripcion = ""; 
-                        
-                        for (TipMovVO c : mgr.MostrarTipMov(codigo, descripcion)) {
-                            String Datos[] = {String.valueOf(c.getCODIGO()), String.valueOf(c.getDESCRIPCION())};
-                            LTipMov.addRow(Datos);
-                        }
-                        
-                        JTMovEnt.setModel(LTipMov);
-                        
-                        JTMovEnt.addMouseListener(new java.awt.event.MouseAdapter() {
-                                public void mouseClicked(java.awt.event.MouseEvent evt) {
-                                        int selectedRowIndex = JTMovEnt.getSelectedRow();
-                                        System.out.println(LTipMov.getValueAt(selectedRowIndex, 0).toString() + "\t" + LTipMov.getValueAt(selectedRowIndex, 1).toString());
-
-                                        txt_ent.setText(LTipMov.getValueAt(selectedRowIndex, 0).toString());
-                                        lbl_td_descrip.setText(LTipMov.getValueAt(selectedRowIndex, 1).toString());				
-                                        dialog.dispose();				
-                                }
-                        });
-                        
-                        JTMovEnt.setPreferredScrollableViewportSize(new Dimension(450, 200));
-                        JTMovEnt.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-                        JTMovEnt.getColumnModel().getColumn(0).setPreferredWidth(150);
-                        JTMovEnt.getColumnModel().getColumn(1).setPreferredWidth(300);
-                        
-                        JScrollPane scrollPane = new JScrollPane(JTMovEnt, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                        
-                        JPanel jpdialog = new JPanel();
-                        jpdialog.setLayout(new BoxLayout(jpdialog, BoxLayout.Y_AXIS));
-                        jpdialog.setBackground(Color.red);
-
-                        JPanel jpttipmov = new JPanel();
-                        jpttipmov.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
-                        jpttipmov.add(scrollPane);		
-                        jpdialog.add(jpttipmov);		
-
-                        JPanel jpsearchcli =  new JPanel();
-                        jpsearchcli.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));	
-                        
-                        JLabel lblxcodigo = new JLabel();
-                        lblxcodigo.setFont(Exo2Medium);
-                        lblxcodigo.setText("TIP.MOV.");
-                        jpsearchcli.add(lblxcodigo);
-                        jpdialog.add(jpsearchcli);
-
-                        JTextField txtxcodigo = new JTextField();
-                        txtxcodigo.setPreferredSize(new Dimension(150,19));
-                        jpsearchcli.add(txtxcodigo);
-
-                        JTextField txtxdescripcion = new JTextField();
-                        txtxdescripcion.setPreferredSize(new Dimension(250,19));
-                        jpsearchcli.add(txtxdescripcion);
-
-                        dialog.add(jpdialog);
-                        dialog.pack();
-                        Runnable dialogDisplayThread = new Runnable() {
-                                public void run() {
-                                        dialog.setVisible(true);
-                                }
-                        };
-
-                        dialog.addWindowListener(new WindowAdapter() {
-                                public void windowClosed(WindowEvent e) {
-                                        dialog.dispose();
-                                }
-
-                                public void windowClosing(WindowEvent e) {
-                                        dialog.dispose();
-                                }
-                        });
-                        
-                        txtxcodigo.addKeyListener(new KeyAdapter() {
-                        @Override
-                        public void keyPressed(KeyEvent e) {
-                                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-
-                                                String xcod = txtxcodigo.getText();
-                                                String xdescrip = txtxdescripcion.getText();
-
-                                                LTipMov.setRowCount(0);
-                                                for (TipMovVO c : mgr.MostrarTipMov(xcod,xdescrip)) {
-                                                        String Datos[] = {String.valueOf(c.getCODIGO()), String.valueOf(c.getDESCRIPCION())};
-                                                        LTipMov.addRow(Datos);
-                                                }
-
-                                                JTMovEnt.setModel(LTipMov);
-                                        }
-                                }			
-                        });
-                        
-                        txtxdescripcion.addKeyListener(new KeyAdapter() {
-                            @Override
-                            public void keyPressed(KeyEvent e) {
-                                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-
-                                            String xcod = txtxcodigo.getText();
-                                            String xdescrip = txtxdescripcion.getText();
-
-                                            LTipMov.setRowCount(0);
-                                            for (TipMovVO c : mgr.MostrarTipMov(xcod, xdescrip)) {
-                                                    String Datos[] = {String.valueOf(c.getCODIGO()), String.valueOf(c.getDESCRIPCION())};
-                                                    LTipMov.addRow(Datos);
-                                            }
-
-                                            JTMovEnt.setModel(LTipMov);
-                                    }
-                            }			
-                        });
-                        
-                        new Thread(dialogDisplayThread).start();
-
-                        while (!dialog.isVisible()) {
-                        }
-                        dialog.paint(dialog.getGraphics());
-
-                        return dialog;
-        
-                }
+	private PopupMenu addSeparator(Dimension dimension) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+	
+//	private JDialog JDialogProvee() throws Exception {
+//		
+//		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//
+//		String strexomedium = new File("src\\font\\exo2\\Exo2-Medium.otf").getAbsolutePath();
+//		Font StrExo2Medium = Font.createFont(Font.TRUETYPE_FONT, new File(strexomedium));
+//		ge.registerFont(StrExo2Medium);
+//		Font Exo2Medium = new Font("Exo 2 Medium", Font.PLAIN, 12);
+//
+//		final JDialog dialog = new JDialog();
+//		dialog.setLayout(new FlowLayout());
+//		dialog.setTitle("Lista de Proveedor");
+//		dialog.setModal(false);
+//		dialog.setLocation(200, 200);
+//
+//		dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+//		dialog.setAlwaysOnTop(true);
+//		
+//		JTListProvee = new JTable();
+//
+//		DefaultTableModel LListProvee = new DefaultTableModel();
+//		String titulos[] = {"CODIGO", "DESCRIPCION"};
+//		LListProvee.setColumnIdentifiers(titulos);	
+//
+//		String codigo = ""; 
+//		String proveedor = ""; 
+//
+//		for (ProveedorVO c : mgr.MostrarProveedor(codigo, proveedor)) {
+//			String Datos[] = {String.valueOf(c.getCODIGO()), String.valueOf(c.getPROVEEDOR())};
+//			LListProvee.addRow(Datos);
+//		}
+//
+//		JTListProvee.setModel(LListProvee);
+//
+//		JTListProvee.addMouseListener(new java.awt.event.MouseAdapter() {
+//			public void mouseClicked(java.awt.event.MouseEvent evt) {
+//				int selectedRowIndex = JTListProvee.getSelectedRow();
+//				System.out.println(LListProvee.getValueAt(selectedRowIndex, 0).toString() + "\t" + LListProvee.getValueAt(selectedRowIndex, 1).toString());
+//
+//				txt_codprov.setText(LListProvee.getValueAt(selectedRowIndex, 0).toString());
+//				lbl_prov_descrip.setText(LListProvee.getValueAt(selectedRowIndex, 1).toString());
+//				dialog.dispose();
+//			}
+//		});
+//		
+//		JTListProvee.setPreferredScrollableViewportSize(new Dimension(450, 200));
+//		JTListProvee.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//
+//		JTListProvee.getColumnModel().getColumn(0).setPreferredWidth(150);
+//		JTListProvee.getColumnModel().getColumn(1).setPreferredWidth(300);
+//
+//		JScrollPane scrollPane = new JScrollPane(JTListProvee, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//
+//		JPanel jpdialog = new JPanel();
+//		jpdialog.setLayout(new BoxLayout(jpdialog, BoxLayout.Y_AXIS));
+//		jpdialog.setBackground(Color.red);
+//
+//		JPanel jptlistprovee = new JPanel();
+//		jptlistprovee.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
+//		jptlistprovee.add(scrollPane);
+//		jpdialog.add(jptlistprovee);
+//
+//		JPanel jplistprovee = new JPanel();
+//		jplistprovee.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
+//
+//		JLabel lblxcodigo = new JLabel();
+//		lblxcodigo.setFont(Exo2Medium);
+//		lblxcodigo.setText("TIP.MOV.");
+//		jplistprovee.add(lblxcodigo);
+//		jpdialog.add(jplistprovee);
+//
+//		JTextField txtxcodigo = new JTextField();
+//		txtxcodigo.setPreferredSize(new Dimension(150, 19));
+//		jplistprovee.add(txtxcodigo);
+//
+//		JTextField txtxdescripcion = new JTextField();
+//		txtxdescripcion.setPreferredSize(new Dimension(250, 19));
+//		jplistprovee.add(txtxdescripcion);
+//
+//		dialog.add(jpdialog);
+//		dialog.pack();
+//		
+//		Runnable dialogDisplayThread = new Runnable() {
+//				public void run() {
+//						dialog.setVisible(true);
+//				}
+//		};
+//
+//		dialog.addWindowListener(new WindowAdapter() {
+//				public void windowClosed(WindowEvent e) {
+//						dialog.dispose();
+//				}
+//				public void windowClosing(WindowEvent e) {
+//						dialog.dispose();
+//				}
+//		});
+//		
+//		txtxcodigo.addKeyListener(new KeyAdapter() {
+//			@Override
+//			public void keyPressed(KeyEvent e) {
+//				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+//
+//					String xcod = txtxcodigo.getText();
+//					String xdescrip = txtxdescripcion.getText();
+//
+//					LListProvee.setRowCount(0);
+//					for (ProveedorVO c : mgr.MostrarProveedor(xcod, xdescrip)) {
+//						String Datos[] = {String.valueOf(c.getCODIGO()), String.valueOf(c.getPROVEEDOR())};
+//						LListProvee.addRow(Datos);
+//					}
+//
+//					JTMovEnt.setModel(LListProvee);
+//				}
+//			}
+//		});
+//
+//		txtxdescripcion.addKeyListener(new KeyAdapter() {
+//			@Override
+//			public void keyPressed(KeyEvent e) {
+//				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+//
+//					String xcod = txtxcodigo.getText();
+//					String xdescrip = txtxdescripcion.getText();
+//
+//					LListProvee.setRowCount(0);
+//					for (ProveedorVO c : mgr.MostrarProveedor(xcod, xdescrip)) {
+//						String Datos[] = {String.valueOf(c.getCODIGO()), String.valueOf(c.getPROVEEDOR())};
+//						LListProvee.addRow(Datos);
+//					}
+//
+//					JTMovEnt.setModel(LListProvee);
+//				}
+//			}
+//		});
+//		
+//		new Thread(dialogDisplayThread).start();
+//
+//		while (!dialog.isVisible()) {
+//		}
+//		dialog.paint(dialog.getGraphics());
+//
+//		return dialog;
+//	}
 	
 }
