@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.awt.EventQueue;
 
 import View.Login;
 import View.Menu;
@@ -138,14 +139,32 @@ public class Manager {
 	
 	public void ShowMenu(String Cargo) {
 
-		if (Cargo.equals("ADMINISTRADOR")) {
-			menues.OpcionAdmin();
-		} else if (Cargo.equals("JEFE_OPE")) {
-			menues.OpcionJefeOpe();
-		} else if (Cargo.equals("OPERACIONES")) {
-			menues.OpcionOpe();
-		}
-		menues.getMenframe().setVisible(true);
+//		if (Cargo.equals("ADMINISTRADOR")) {
+//			menues.OpcionAdmin();
+//		} else if (Cargo.equals("JEFE_OPE")) {
+//			menues.OpcionJefeOpe();
+//		} else if (Cargo.equals("OPERACIONES")) {
+//			menues.OpcionOpe();
+//		}
+//		menues.getMenframe().setVisible(true);
+
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					// crea el JFrame 
+					if (Cargo.equals("ADMINISTRADOR")) {
+						menues.OpcionAdmin();
+					} else if (Cargo.equals("JEFE_OPE")) {
+						menues.OpcionJefeOpe();
+					} else if (Cargo.equals("OPERACIONES")) {
+						menues.OpcionOpe();
+					}
+					menues.getMenframe().setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 
 	}
 

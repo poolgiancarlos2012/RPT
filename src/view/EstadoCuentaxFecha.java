@@ -38,6 +38,7 @@ import javax.swing.event.InternalFrameListener;
 import model.vo.AgenciaVO;
 
 import controller.Manager;
+import java.awt.BorderLayout;
 import java.awt.Checkbox;
 import java.awt.Component;
 import java.awt.Container;
@@ -98,14 +99,42 @@ public class EstadoCuentaxFecha extends JInternalFrame implements InternalFrameL
 	private Manager mgr = new Manager();
 	
 	private JTable JTCliente;
+
+	public JTable getJTCliente() {
+		return JTCliente;
+	}
+
+	public void setJTCliente(JTable JTCliente) {
+		this.JTCliente = JTCliente;
+	}
+	
+	
 	
 	private boolean DEBUG = true;
 	
 	private JLabel lblcodigo_cliente,lblemisionini,lblemisionfini,lblfechemision;
-	private JTextField txtcodigo_cliente,txtrazon_social;
-	private JButton btnDescargar;
+	public JTextField txtcodigo_cliente,txtrazon_social;
+	private JButton btnDescargar, btntest;
 	private JTextArea AreaResult;
 	private JScrollPane scrPaneEstCuxFech;
+
+	public JTextField getTxtcodigo_cliente() {
+		return txtcodigo_cliente;
+	}
+
+	public void setTxtcodigo_cliente(JTextField txtcodigo_cliente) {
+		this.txtcodigo_cliente = txtcodigo_cliente;
+	}
+
+	public JTextField getTxtrazon_social() {
+		return txtrazon_social;
+	}
+
+	public void setTxtrazon_social(JTextField txtrazon_social) {
+		this.txtrazon_social = txtrazon_social;
+	}
+	
+	
 	
 	static DefaultComboBoxModel dcbagenCAISAC;
 	
@@ -196,7 +225,7 @@ public class EstadoCuentaxFecha extends JInternalFrame implements InternalFrameL
 
 		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		addInternalFrameListener(this);
-		
+
 		paneladm = new JPanel();
 //		paneladm.setPreferredSize(new Dimension(328, 480));
 		paneladm.setLayout(new BoxLayout(paneladm, BoxLayout.Y_AXIS));
@@ -216,17 +245,20 @@ public class EstadoCuentaxFecha extends JInternalFrame implements InternalFrameL
 		txtcodigo_cliente.setText("");
 		txtcodigo_cliente.setName("txtcodigo_cliente");
 
-//		Keymap firstNameMap = txtcodigo_cliente.getKeymap();
-//		KeyStroke altF1 = KeyStroke.getKeyStroke(KeyEvent.VK_F1,InputEvent.SHIFT_MASK);
-//		firstNameMap.addActionForKeyStroke(altF1,new  TextFieldActionEstCuFech());		
-
 		txtcodigo_cliente.setFocusTraversalKeysEnabled(false);
-                                
+		
+		panelop.add(txtcodigo_cliente);
+		
+		/*****/
+
 		javax.swing.Action myAction = new javax.swing.AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					JDialog asyncDialog = JDialogClientes();
-//					asyncDialog.setLocation(200, 200);					
+					JDialog asyncDialog = JDialogClientes();		
+					
+					asyncDialog.setModal(true);
+					asyncDialog.setVisible(true);	
+					
 				} catch (Exception ex) {
 					Logger.getLogger(EstadoCuentaxFecha.class.getName()).log(Level.SEVERE, null, ex);
 				}
@@ -237,8 +269,8 @@ public class EstadoCuentaxFecha extends JInternalFrame implements InternalFrameL
 		txtcodigo_cliente.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F1, Event.SHIFT_MASK), "myCode");
 		txtcodigo_cliente.getActionMap().put("myCode", myAction);
 
-		
-		panelop.add(txtcodigo_cliente);
+
+		/*****/
 		paneladm.add(panelop);
 		
 		panelrazon_social = new JPanel();
@@ -841,23 +873,34 @@ public class EstadoCuentaxFecha extends JInternalFrame implements InternalFrameL
 	}
 	
 	private JDialog JDialogClientes() throws Exception {
-		
+
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
 		String strexomedium = new File("src\\font\\exo2\\Exo2-Medium.otf").getAbsolutePath();
 		Font StrExo2Medium = Font.createFont(Font.TRUETYPE_FONT, new File(strexomedium));
 		ge.registerFont(StrExo2Medium);
 		Font Exo2Medium = new Font("Exo 2 Medium", Font.PLAIN, 12);
-		
+
 		final JDialog dialog = new JDialog();
 		dialog.setLayout(new FlowLayout());
 		dialog.setTitle("Consulta de Clientes");
 		dialog.setModal(false);
 		dialog.setLocation(200, 200);
-		
-		dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-		dialog.setAlwaysOnTop(true);
+		dialog.setSize(500, 500);
 
+		dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		dialog.setAlwaysOnTop(true);		
+
+		dialog.addWindowListener(new WindowAdapter() {
+			public void windowClosed(WindowEvent e) {
+				dialog.dispose();
+			}
+
+			public void windowClosing(WindowEvent e) {
+				dialog.dispose();
+			}
+		});
+		
 		JTCliente = new JTable();
 
 		DefaultTableModel LClientes = new DefaultTableModel();
@@ -904,7 +947,7 @@ public class EstadoCuentaxFecha extends JInternalFrame implements InternalFrameL
 		jpdialog.add(jptcliente);		
 		
 		JPanel jpsearchcli =  new JPanel();
-//		jpsearchcli.setBackground(Color.green);
+		jpsearchcli.setBackground(Color.green);
 		jpsearchcli.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));	
 		
 		JLabel lblxcodigo_cliente = new JLabel();
@@ -923,23 +966,7 @@ public class EstadoCuentaxFecha extends JInternalFrame implements InternalFrameL
 		
 		dialog.add(jpdialog);
 		dialog.pack();
-		Runnable dialogDisplayThread = new Runnable() {
-			public void run() {
-				dialog.setVisible(true);
-			}
-		};
 
-		dialog.addWindowListener(new WindowAdapter() {
-			public void windowClosed(WindowEvent e) {
-				dialog.dispose();
-			}
-
-			public void windowClosing(WindowEvent e) {
-				dialog.dispose();
-			}
-		});
-		
-		
 		txtxcodigo_cliente.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -977,12 +1004,6 @@ public class EstadoCuentaxFecha extends JInternalFrame implements InternalFrameL
 				}
 			}			
 		});
-
-		new Thread(dialogDisplayThread).start();
-
-		while (!dialog.isVisible()) {
-		}
-		dialog.paint(dialog.getGraphics());
 
 		return dialog;
 	}
